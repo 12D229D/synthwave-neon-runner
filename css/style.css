@@ -1,0 +1,498 @@
+/* =================================================================
+   Synthwave Neon Velocity — Hoja de estilos principal
+   Estética synthwave 80s: degradados neón HSL, glassmorphism y glows.
+   Dark-first (patrón RAG/EMBEDDINGS). Override con [data-theme="light"].
+   ================================================================= */
+
+/* ---------- Tokens HSL (canales crudos para alpha dinámico) ---------- */
+:root {
+  /* Paleta neón — brand synthwave */
+  --neon-pink:   330 100% 55%;
+  --neon-cyan:   188  95% 53%;
+  --neon-purple: 265  89% 66%;
+  --neon-amber:   38  92% 50%;
+  --neon-sun:     18  92% 55%;
+
+  /* Glows prefabricados */
+  --neon-pink-glow:   hsla(330, 100%, 55%, 0.28);
+  --neon-cyan-glow:   hsla(188,  95%, 53%, 0.28);
+  --neon-purple-glow: hsla(265,  89%, 66%, 0.25);
+  --neon-amber-glow:  hsla(38,   92%, 50%, 0.30);
+
+  /* Fondo oscuro violeta (RAG/EMBEDDINGS dark) */
+  --bg-primary:    hsl(258, 47%, 7%);
+  --bg-secondary:   hsl(258, 40%, 11%);
+  --bg-tertiary:    hsl(258, 35%, 15%);
+  --bg-glass:         hsla(258, 40%, 11%, 0.72);
+  --bg-glass-strong:  hsla(258, 47%, 7%,  0.92);
+
+  /* Texto */
+  --text-primary:   hsl(210, 40%, 98%);
+  --text-secondary: hsl(215, 20%, 78%);
+  --text-muted:     hsl(215, 16%, 55%);
+
+  /* Bordes */
+  --border-subtle:    hsla(265, 60%, 66%, 0.18);
+  --border-strong:    hsla(188, 95%, 53%, 0.55);
+
+  /* Tipografía */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Orbitron', 'Inter', system-ui, sans-serif;
+  --font-mono: 'Fira Code', 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Radios */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Sombras */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
+  --shadow-glow-cyan: 0 0 22px var(--neon-cyan-glow);
+  --shadow-glow-pink: 0 0 28px var(--neon-pink-glow);
+  --shadow-glow-amber: 0 0 30px var(--neon-amber-glow);
+
+  /* Transiciones */
+  --transition-fast: 120ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 360ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --hud-height: 64px;
+}
+
+/* Override opcional claro (patrón repo conmutado por JS) */
+[data-theme="light"] {
+  --bg-primary:    hsl(240, 20%, 96%);
+  --bg-secondary:   hsl(240, 20%, 92%);
+  --bg-tertiary:    hsl(240, 18%, 88%);
+  --bg-glass:         hsla(0, 0%, 100%, 0.78);
+  --bg-glass-strong:  hsla(0, 0%, 100%, 0.92);
+  --text-primary:   hsl(258, 47%, 12%);
+  --text-secondary: hsl(258, 20%, 35%);
+  --text-muted:     hsl(258, 12%, 50%);
+  --border-subtle:  hsla(265, 60%, 40%, 0.25);
+}
+
+/* ---------- Reset suave ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+}
+
+/* ---------- Layout semántico ---------- */
+.app-header {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 18px;
+  height: var(--hud-height);
+  background: var(--bg-glass);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.app-main {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, hsl(258, 60%, 6%) 0%, hsl(300, 60%, 10%) 60%, hsl(18, 80%, 18%) 100%);
+  touch-action: none;
+}
+
+/* ---------- HUD ---------- */
+.hud {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: var(--font-display);
+}
+
+.hud-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.hud-label {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  margin-bottom: 4px;
+}
+
+.hud-value {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+}
+
+.hud-value.speed {
+  color: hsl(188, 95%, 60%);
+  text-shadow: 0 0 10px var(--neon-cyan-glow);
+}
+
+.hud-value.score {
+  color: hsl(330, 100%, 70%);
+  text-shadow: 0 0 10px var(--neon-pink-glow);
+}
+
+.hud-value.combo {
+  color: hsl(38, 92%, 60%);
+  text-shadow: 0 0 10px var(--neon-amber-glow);
+}
+
+.hud-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--border-subtle);
+}
+
+/* Barra de nitro */
+.nitro-bar {
+  width: 110px;
+  height: 8px;
+  border-radius: 4px;
+  background: hsla(258, 20%, 20%, 0.6);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+
+.nitro-fill {
+  height: 100%;
+  width: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, hsl(188, 95%, 53%), hsl(265, 89%, 66%));
+  box-shadow: 0 0 12px var(--neon-cyan-glow);
+  transition: width 120ms linear;
+}
+
+.nitro-fill.empty {
+  background: hsla(258, 20%, 30%, 0.6);
+  box-shadow: none;
+}
+
+/* Botón de pausa */
+.btn-icon {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-icon:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-glow-cyan);
+}
+
+.btn-icon:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--neon-cyan-glow);
+}
+
+/* ---------- Overlays (menú / pausa / game over) ---------- */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 24px;
+  background: radial-gradient(circle at 50% 35%, hsla(330, 80%, 25%, 0.35) 0%, hsla(258, 47%, 7%, 0.85) 55%, var(--bg-glass-strong) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 30;
+  text-align: center;
+}
+
+.overlay.hidden {
+  display: none;
+  pointer-events: none;
+}
+
+.overlay-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(28px, 6vw, 64px);
+  letter-spacing: 0.08em;
+  margin: 0;
+  line-height: 1.05;
+  background: linear-gradient(90deg, hsl(330, 100%, 70%), hsl(188, 95%, 60%), hsl(38, 92%, 60%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 18px var(--neon-pink-glow));
+  animation: titlePulse 3.2s ease-in-out infinite alternate;
+}
+
+.overlay-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(11px, 1.8vw, 14px);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin: -8px 0 0 0;
+}
+
+.overlay-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 28px;
+  margin: 6px 0;
+  font-family: var(--font-display);
+  text-align: left;
+}
+
+.overlay-stats .stat-label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  align-self: end;
+}
+
+.overlay-stats .stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.overlay-stats .stat-value.highlight {
+  color: hsl(38, 92%, 60%);
+  text-shadow: 0 0 12px var(--neon-amber-glow);
+}
+
+.new-record {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: hsl(38, 92%, 60%);
+  text-shadow: 0 0 12px var(--neon-amber-glow);
+  animation: blink 1s steps(2, end) infinite;
+}
+
+.new-record.hidden { display: none; }
+
+/* ---------- Botones ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 200px;
+  padding: 12px 28px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong);
+  background: linear-gradient(135deg, hsl(188, 95%, 53%), hsl(265, 89%, 66%));
+  color: hsl(258, 47%, 8%);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 18px var(--neon-cyan-glow);
+  transition: var(--transition-fast);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px var(--neon-pink-glow);
+  border-color: hsl(330, 100%, 65%);
+}
+
+.btn:active { transform: translateY(0); }
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--neon-cyan-glow), 0 8px 26px var(--neon-pink-glow);
+}
+
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border-color: var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-glow-cyan);
+}
+
+.button-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ---------- Controles táctiles (footer) ---------- */
+.touch-controls {
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  right: 0;
+  display: none;
+  justify-content: space-between;
+  padding: 0 22px;
+  pointer-events: none;
+  z-index: 25;
+}
+
+.touch-controls .pad,
+.touch-controls .nitro-btn {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--bg-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 26px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.touch-controls .pad.active {
+  color: hsl(188, 95%, 60%);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-glow-cyan);
+}
+
+.touch-controls .nitro-btn.active {
+  color: hsl(330, 100%, 70%);
+  border-color: hsl(330, 100%, 65%);
+  box-shadow: var(--shadow-glow-pink);
+}
+
+.pad-group { display: flex; gap: 10px; }
+
+/* ---------- Toast (notificaciones flotantes) ---------- */
+.toast {
+  position: absolute;
+  top: calc(var(--hud-height) + 14px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  padding: 8px 18px;
+  border-radius: var(--radius-md);
+  background: var(--bg-glass-strong);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-base), transform var(--transition-base);
+  z-index: 28;
+  box-shadow: var(--shadow-md), var(--shadow-glow-cyan);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---------- Animaciones ---------- */
+@keyframes titlePulse {
+  from { filter: drop-shadow(0 0 14px var(--neon-pink-glow)); }
+  to   { filter: drop-shadow(0 0 28px var(--neon-cyan-glow)); }
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.25; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.overlay:not(.hidden) > * {
+  animation: fadeIn var(--transition-slow) both;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .app-header { padding: 8px 12px; gap: 8px; }
+  .hud { gap: 10px; }
+  .hud-value { font-size: 15px; }
+  .hud-label { font-size: 8px; letter-spacing: 0.14em; }
+  .hud-divider { height: 26px; }
+  .nitro-bar { width: 80px; }
+  .btn { min-width: 160px; padding: 10px 22px; font-size: 12px; }
+}
+
+@media (max-width: 480px) {
+  .touch-controls { display: flex; }
+  .hud-item:nth-child(3), .hud-divider:nth-child(4) { display: none; } /* ocultar combo en pantallas pequeñas */
+  .overlay-stats { grid-template-columns: 1fr; gap: 6px; text-align: center; }
+  .overlay-stats .stat-value { text-align: center; }
+}
+
+/* ---------- Accesibilidad: motion reducido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .overlay-title { animation: none; }
+  .new-record { animation: none; }
+  .overlay:not(.hidden) > * { animation: none; }
+  * { transition-duration: 50ms !important; }
+}

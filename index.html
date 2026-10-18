@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Synthwave Neon Velocity: endless runner pseudo-3D retrofuturista con música synthwave generativa en Web Audio API." />
+  <meta name="theme-color" content="#0c0714" />
+  <title>Synthwave Neon Velocity — Endless Runner Retro Wave</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@500;700;800&family=Fira+Code:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="hud" role="status" aria-live="off">
+      <div class="hud-item">
+        <span class="hud-label">Velocidad</span>
+        <span class="hud-value speed" id="hud-speed">000</span>
+      </div>
+      <div class="hud-divider" aria-hidden="true"></div>
+      <div class="hud-item">
+        <span class="hud-label">Puntos</span>
+        <span class="hud-value score" id="hud-score">000000</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Combo</span>
+        <span class="hud-value combo" id="hud-combo">x1</span>
+      </div>
+      <div class="hud-divider" aria-hidden="true"></div>
+      <div class="hud-item">
+        <span class="hud-label">Nitro</span>
+        <div class="nitro-bar" id="nitro-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" aria-label="Barra de nitro">
+          <div class="nitro-fill" id="nitro-fill"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-icon" id="btn-pause" type="button" aria-label="Pausar o reanudar" title="Pausa (P / Esc)">❚❚</button>
+  </header>
+
+  <main class="app-main" id="app-main">
+    <canvas id="game-canvas" aria-label="Lienzo del juego Synthwave Neon Velocity"></canvas>
+
+    <div class="toast" id="toast"></div>
+
+    <!-- Menú principal -->
+    <section class="overlay" id="overlay-menu" aria-label="Menú principal">
+      <h1 class="overlay-title">NEON VELOCITY</h1>
+      <p class="overlay-subtitle">synthwave endless runner</p>
+      <div class="overlay-stats">
+        <span class="stat-label">Mejor puntuación</span>
+        <span class="stat-value highlight" id="menu-best-score">0</span>
+        <span class="stat-label">Mejor distancia</span>
+        <span class="stat-value highlight" id="menu-best-distance">0 km</span>
+      </div>
+      <div class="button-row">
+        <button class="btn" id="btn-start" type="button">▶ Iniciar motor</button>
+      </div>
+      <p class="overlay-subtitle" id="menu-help">← → o A / D: cambiar carril · Espacio / Shift: nitro · P: pausa</p>
+    </section>
+
+    <!-- Pausa -->
+    <section class="overlay hidden" id="overlay-pause" aria-label="Juego en pausa">
+      <h2 class="overlay-title">PAUSA</h2>
+      <p class="overlay-subtitle">motor en punto muerto</p>
+      <div class="button-row">
+        <button class="btn" id="btn-resume" type="button">Reanudar</button>
+        <button class="btn btn-secondary" id="btn-restart" type="button">Reiniciar</button>
+      </div>
+    </section>
+
+    <!-- Game Over -->
+    <section class="overlay hidden" id="overlay-gameover" aria-label="Fin de la partida">
+      <h2 class="overlay-title">GAME OVER</h2>
+      <p class="overlay-subtitle">colisión crítica detectada</p>
+      <p class="new-record hidden" id="new-record">◆ Nuevo récord ◆</p>
+      <div class="overlay-stats">
+        <span class="stat-label">Puntuación</span>
+        <span class="stat-value" id="final-score">0</span>
+        <span class="stat-label">Distancia</span>
+        <span class="stat-value" id="final-distance">0 km</span>
+        <span class="stat-label">Mejor puntuación</span>
+        <span class="stat-value highlight" id="best-score">0</span>
+      </div>
+      <div class="button-row">
+        <button class="btn" id="btn-again" type="button">↻ Reintentar</button>
+        <button class="btn btn-secondary" id="btn-menu" type="button">Menú</button>
+      </div>
+    </section>
+
+    <!-- Controles táctiles -->
+    <nav class="touch-controls" id="touch-controls" aria-label="Controles táctiles">
+      <div class="pad-group">
+        <button class="pad" id="pad-left" type="button" aria-label="Carril izquierdo">◀</button>
+        <button class="pad" id="pad-right" type="button" aria-label="Carril derecho">▶</button>
+      </div>
+      <button class="nitro-btn" id="pad-nitro" type="button" aria-label="Activar nitro">⚡</button>
+    </nav>
+  </main>
+
+  <script src="js/camera.js" defer></script>
+  <script src="js/synth.js" defer></script>
+  <script src="js/audio.js" defer></script>
+  <script src="js/vehicle.js" defer></script>
+  <script src="js/obstacles.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>
